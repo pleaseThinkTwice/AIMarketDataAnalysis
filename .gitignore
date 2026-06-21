@@ -1,0 +1,53 @@
+# Python
+__pycache__/
+*.py[cod]
+*.egg-info/
+dist/
+build/
+.eggs/
+*.egg
+
+# Virtual environments
+venv/
+.venv/
+env/
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# Environment
+.env
+.env.local
+*.env
+
+# Data (large files, database dumps)
+data/raw/
+data/processed/
+data/indexes/
+*.db
+*.sqlite3
+
+# Outputs
+outputs/
+*.png
+*.html
+*.pdf
+
+# Checkpoints
+checkpoints/
+checkpoints.db
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Jupyter
+.ipynb_checkpoints/
+
+# Coverage
+htmlcov/
+.coverage
+coverage.xml

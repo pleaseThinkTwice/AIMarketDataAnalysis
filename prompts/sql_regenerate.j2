@@ -1,0 +1,43 @@
+你的上一个 SQL 执行时出现了错误。请基于错误信息修正 SQL。
+
+## 原始任务
+{{ task.goal }}
+
+## 上一个 SQL
+```sql
+{{ previous_sql }}
+```
+
+## 原始推理思路
+{{ previous_reasoning }}
+
+## 执行错误信息
+```
+{{ error_message }}
+```
+
+## 错误类型: {{ error_class_description }}
+{% if error_class == "schema" %}
+这是 Schema 错误 — 可能是表名或字段名写错了。请仔细检查上面的 Schema 信息，使用正确的表名和字段名。
+{% elif error_class == "syntax" %}
+这是 SQL 语法错误 — 可能是拼写、括号、逗号等格式问题。请逐字符检查 SQL。
+{% elif error_class == "type" %}
+这是类型错误 — 可能是对非数字字段做了算术运算，或 JOIN 条件两侧类型不匹配。
+{% elif error_class == "semantic" %}
+这是语义错误 — SQL 语法正确但结果不符合预期，可能是 WHERE 条件覆盖了错误范围、漏了 GROUP BY 或 JOIN 条件。
+{% endif %}
+
+## 可用的 Schema 上下文 (已重新检索)
+{% for table in schema.tables %}
+### 表: {{ table.name }}
+{% for col in table.columns %}
+- {{ col.name }} ({{ col.type }}): {{ col.description }}{% if col.notes %} ⚠️ {{ col.notes }}{% endif %}
+{% endfor %}
+{% endfor %}
+
+请修正 SQL，只输出纯 JSON（不要 markdown 包裹）:
+{
+  "reasoning": "分析为什么出错，修改了什么",
+  "sql": "修正后的完整 SQL",
+  "expected_output_shape": "输出形状描述"
+}

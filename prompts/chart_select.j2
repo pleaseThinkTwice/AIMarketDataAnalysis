@@ -1,0 +1,28 @@
+你需要为数据分析结果选择合适的图表类型。
+
+## 数据特征
+- 行数: {{ n_rows }}
+- 列数: {{ n_cols }}
+- 列名和类型:
+{% for col in columns %}
+  - {{ col.name }}: {{ col.type }} (示例值: {{ col.sample }})
+{% endfor %}
+
+## 任务上下文
+{{ task_goal }}
+
+## 可用图表类型
+- line: 折线图，适合时间序列
+- bar: 柱状图，适合分类对比
+- horizontal_bar: 横向柱状图，适合长标签的分类
+- stacked_bar: 堆叠柱状图，适合分类 × 子分类
+- heatmap: 热力图，适合双分类交叉
+- histogram: 直方图，适合单变量分布
+- scatter: 散点图，适合双数值变量相关性
+- pie: 饼图，适合占比展示（不超过7个分类）
+
+## 输出格式 (纯 JSON，不要 markdown)
+{
+  "chart_type": "bar",
+  "reasoning": "为什么选这个类型"
+}

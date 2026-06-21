@@ -1,0 +1,200 @@
+{"query": "统计订单总数", "expected_tables": ["orders"], "gold_sql": "", "tags": ["single_step", "aggregation"]}
+{"query": "统计用户总数", "expected_tables": ["users"], "gold_sql": "", "tags": ["single_step", "aggregation"]}
+{"query": "统计商品总数", "expected_tables": ["skus"], "gold_sql": "", "tags": ["single_step", "aggregation"]}
+{"query": "计算订单平均金额", "expected_tables": ["orders"], "gold_sql": "", "tags": ["single_step", "aggregation"]}
+{"query": "计算商品平均价格", "expected_tables": ["skus"], "gold_sql": "", "tags": ["single_step", "aggregation"]}
+{"query": "统计评价总数", "expected_tables": ["reviews"], "gold_sql": "", "tags": ["single_step", "aggregation"]}
+{"query": "统计退货总数", "expected_tables": ["returns"], "gold_sql": "", "tags": ["single_step", "aggregation"]}
+{"query": "计算平均评价分数", "expected_tables": ["reviews"], "gold_sql": "", "tags": ["single_step", "aggregation"]}
+{"query": "统计支付记录总数", "expected_tables": ["payments"], "gold_sql": "", "tags": ["single_step", "aggregation"]}
+{"query": "统计加购事件总数", "expected_tables": ["add_to_cart"], "gold_sql": "", "tags": ["single_step", "aggregation"]}
+{"query": "计算订单金额总和", "expected_tables": ["orders"], "gold_sql": "", "tags": ["single_step", "aggregation"]}
+{"query": "统计页面浏览量", "expected_tables": ["page_views"], "gold_sql": "", "tags": ["single_step", "aggregation"]}
+{"query": "计算订单平均商品数量", "expected_tables": ["order_items"], "gold_sql": "", "tags": ["single_step", "aggregation"]}
+{"query": "统计客服工单总数", "expected_tables": ["customer_service_tickets"], "gold_sql": "", "tags": ["single_step", "aggregation"]}
+{"query": "计算运费平均值", "expected_tables": ["order_items"], "gold_sql": "", "tags": ["single_step", "aggregation"]}
+{"query": "查询2017年的订单", "expected_tables": ["orders"], "gold_sql": "", "tags": ["single_step", "filtering", "time_filter"]}
+{"query": "查询圣保罗州的用户", "expected_tables": ["users"], "gold_sql": "", "tags": ["single_step", "filtering"]}
+{"query": "查询评分高于4分的评价", "expected_tables": ["reviews"], "gold_sql": "", "tags": ["single_step", "filtering"]}
+{"query": "查询信用卡支付的订单", "expected_tables": ["orders,payments"], "gold_sql": "", "tags": ["single_step", "filtering", "join"]}
+{"query": "查询已取消的订单", "expected_tables": ["orders,dim_order_status"], "gold_sql": "", "tags": ["single_step", "filtering", "trap", "enum_code"]}
+{"query": "查询重量超过1kg的商品", "expected_tables": ["skus"], "gold_sql": "", "tags": ["single_step", "filtering"]}
+{"query": "查询2018年第一季度的订单", "expected_tables": ["orders"], "gold_sql": "", "tags": ["single_step", "filtering", "time_filter", "trap", "timezone"]}
+{"query": "查询投诉类客服工单", "expected_tables": ["customer_service_tickets"], "gold_sql": "", "tags": ["single_step", "filtering"]}
+{"query": "查询退款类支付记录", "expected_tables": ["payments"], "gold_sql": "", "tags": ["single_step", "filtering"]}
+{"query": "查询已退货的订单", "expected_tables": ["orders,returns"], "gold_sql": "", "tags": ["single_step", "filtering", "join"]}
+{"query": "查询每个订单的用户所在城市", "expected_tables": ["orders,users"], "gold_sql": "", "tags": ["single_step", "join"]}
+{"query": "查询每个商品的所属品类名称", "expected_tables": ["skus,categories"], "gold_sql": "", "tags": ["single_step", "join"]}
+{"query": "查询退货订单的退货原因", "expected_tables": ["returns,return_reasons"], "gold_sql": "", "tags": ["single_step", "join"]}
+{"query": "查询每个支付记录的订单状态", "expected_tables": ["payments,orders,dim_order_status"], "gold_sql": "", "tags": ["single_step", "join", "trap"]}
+{"query": "查询评价对应的商品名称", "expected_tables": ["reviews,skus"], "gold_sql": "", "tags": ["single_step", "join"]}
+{"query": "查询加购事件对应的商品品类", "expected_tables": ["add_to_cart,skus,categories"], "gold_sql": "", "tags": ["single_step", "join"]}
+{"query": "查询客服工单对应的订单金额", "expected_tables": ["customer_service_tickets,orders"], "gold_sql": "", "tags": ["single_step", "join"]}
+{"query": "查询每个评价对应的用户所在城市", "expected_tables": ["reviews,users"], "gold_sql": "", "tags": ["single_step", "join"]}
+{"query": "查询订单明细中的商品价格和品类", "expected_tables": ["order_items,skus,categories"], "gold_sql": "", "tags": ["single_step", "join"]}
+{"query": "查询退货商品的价格和品类", "expected_tables": ["returns,skus,categories"], "gold_sql": "", "tags": ["single_step", "join"]}
+{"query": "按品类统计订单数量", "expected_tables": ["orders,order_items,skus,categories"], "gold_sql": "", "tags": ["single_step", "group_by", "join"]}
+{"query": "按州统计用户数量", "expected_tables": ["users"], "gold_sql": "", "tags": ["single_step", "group_by"]}
+{"query": "按支付方式统计订单数量", "expected_tables": ["payments,orders"], "gold_sql": "", "tags": ["single_step", "group_by", "join"]}
+{"query": "按月份统计销售额", "expected_tables": ["orders"], "gold_sql": "", "tags": ["single_step", "group_by", "time_filter", "trap", "timezone"]}
+{"query": "按评分统计评价数量分布", "expected_tables": ["reviews"], "gold_sql": "", "tags": ["single_step", "group_by"]}
+{"query": "按品类统计平均商品价格", "expected_tables": ["skus,categories"], "gold_sql": "", "tags": ["single_step", "group_by", "join"]}
+{"query": "按城市统计订单数量", "expected_tables": ["users,orders"], "gold_sql": "", "tags": ["single_step", "group_by", "join"]}
+{"query": "按退货原因统计退货数量", "expected_tables": ["returns,return_reasons"], "gold_sql": "", "tags": ["single_step", "group_by", "join"]}
+{"query": "按工单类型统计工单数量", "expected_tables": ["customer_service_tickets"], "gold_sql": "", "tags": ["single_step", "group_by"]}
+{"query": "按年份和月份统计订单数量", "expected_tables": ["orders"], "gold_sql": "", "tags": ["single_step", "group_by", "time_filter"]}
+{"query": "销售额最高的10个订单", "expected_tables": ["orders"], "gold_sql": "", "tags": ["single_step", "top_k"]}
+{"query": "评价分数最高的5个商品", "expected_tables": ["reviews,skus"], "gold_sql": "", "tags": ["single_step", "top_k", "join"]}
+{"query": "订单数量最多的5个用户", "expected_tables": ["orders,users"], "gold_sql": "", "tags": ["single_step", "top_k", "join", "group_by"]}
+{"query": "退货率最高的3个品类", "expected_tables": ["returns,orders,order_items,skus,categories"], "gold_sql": "", "tags": ["single_step", "top_k", "join", "group_by", "rate"]}
+{"query": "浏览量最高的20个商品", "expected_tables": ["page_views,skus"], "gold_sql": "", "tags": ["single_step", "top_k", "join", "group_by"]}
+{"query": "销售额最低的5个品类", "expected_tables": ["orders,order_items,skus,categories"], "gold_sql": "", "tags": ["single_step", "top_k", "join", "group_by"]}
+{"query": "最近创建的10个订单", "expected_tables": ["orders"], "gold_sql": "", "tags": ["single_step", "top_k"]}
+{"query": "加购次数最多的10个商品", "expected_tables": ["add_to_cart,skus"], "gold_sql": "", "tags": ["single_step", "top_k", "join", "group_by"]}
+{"query": "支付金额最高的5笔支付", "expected_tables": ["payments"], "gold_sql": "", "tags": ["single_step", "top_k"]}
+{"query": "评价数量最多的10个商品", "expected_tables": ["reviews,skus"], "gold_sql": "", "tags": ["single_step", "top_k", "join", "group_by"]}
+{"query": "统计上个月订单总数", "expected_tables": ["orders"], "gold_sql": "", "tags": ["aggregation", "last_month", "single_step"]}
+{"query": "统计上个月用户总数", "expected_tables": ["users"], "gold_sql": "", "tags": ["aggregation", "last_month", "single_step"]}
+{"query": "统计上个月商品总数", "expected_tables": ["skus"], "gold_sql": "", "tags": ["aggregation", "last_month", "single_step"]}
+{"query": "计算订单平均金额", "expected_tables": ["orders"], "gold_sql": "", "tags": ["aggregation", "last_month", "single_step"]}
+{"query": "计算商品平均价格", "expected_tables": ["skus"], "gold_sql": "", "tags": ["aggregation", "last_month", "single_step"]}
+{"query": "统计上个月评价总数", "expected_tables": ["reviews"], "gold_sql": "", "tags": ["aggregation", "last_month", "single_step"]}
+{"query": "统计上个月退货总数", "expected_tables": ["returns"], "gold_sql": "", "tags": ["aggregation", "last_month", "single_step"]}
+{"query": "计算平均评价分数", "expected_tables": ["reviews"], "gold_sql": "", "tags": ["aggregation", "last_month", "single_step"]}
+{"query": "统计上个月支付记录总数", "expected_tables": ["payments"], "gold_sql": "", "tags": ["aggregation", "last_month", "single_step"]}
+{"query": "统计上个月加购事件总数", "expected_tables": ["add_to_cart"], "gold_sql": "", "tags": ["aggregation", "last_month", "single_step"]}
+{"query": "计算订单金额总和", "expected_tables": ["orders"], "gold_sql": "", "tags": ["aggregation", "last_month", "single_step"]}
+{"query": "统计上个月页面浏览量", "expected_tables": ["page_views"], "gold_sql": "", "tags": ["aggregation", "last_month", "single_step"]}
+{"query": "计算订单平均商品数量", "expected_tables": ["order_items"], "gold_sql": "", "tags": ["aggregation", "last_month", "single_step"]}
+{"query": "统计上个月客服工单总数", "expected_tables": ["customer_service_tickets"], "gold_sql": "", "tags": ["aggregation", "last_month", "single_step"]}
+{"query": "计算运费平均值", "expected_tables": ["order_items"], "gold_sql": "", "tags": ["aggregation", "last_month", "single_step"]}
+{"query": "查询上个月2017年的订单", "expected_tables": ["orders"], "gold_sql": "", "tags": ["last_month", "time_filter", "single_step", "filtering"]}
+{"query": "查询上个月圣保罗州的用户", "expected_tables": ["users"], "gold_sql": "", "tags": ["last_month", "single_step", "filtering"]}
+{"query": "查询上个月评分高于4分的评价", "expected_tables": ["reviews"], "gold_sql": "", "tags": ["last_month", "single_step", "filtering"]}
+{"query": "查询上个月信用卡支付的订单", "expected_tables": ["orders,payments"], "gold_sql": "", "tags": ["last_month", "join", "single_step", "filtering"]}
+{"query": "查询上个月已取消的订单", "expected_tables": ["orders,dim_order_status"], "gold_sql": "", "tags": ["single_step", "filtering", "enum_code", "trap", "last_month"]}
+{"query": "查询上个月重量超过1kg的商品", "expected_tables": ["skus"], "gold_sql": "", "tags": ["last_month", "single_step", "filtering"]}
+{"query": "查询上个月2018年第一季度的订单", "expected_tables": ["orders"], "gold_sql": "", "tags": ["timezone", "single_step", "filtering", "trap", "last_month", "time_filter"]}
+{"query": "查询上个月投诉类客服工单", "expected_tables": ["customer_service_tickets"], "gold_sql": "", "tags": ["last_month", "single_step", "filtering"]}
+{"query": "查询上个月退款类支付记录", "expected_tables": ["payments"], "gold_sql": "", "tags": ["last_month", "single_step", "filtering"]}
+{"query": "查询上个月已退货的订单", "expected_tables": ["orders,returns"], "gold_sql": "", "tags": ["last_month", "join", "single_step", "filtering"]}
+{"query": "查询上个月每个订单的用户所在城市", "expected_tables": ["orders,users"], "gold_sql": "", "tags": ["last_month", "join", "single_step"]}
+{"query": "查询上个月每个商品的所属品类名称", "expected_tables": ["skus,categories"], "gold_sql": "", "tags": ["last_month", "join", "single_step"]}
+{"query": "查询上个月退货订单的退货原因", "expected_tables": ["returns,return_reasons"], "gold_sql": "", "tags": ["last_month", "join", "single_step"]}
+{"query": "查询上个月每个支付记录的订单状态", "expected_tables": ["payments,orders,dim_order_status"], "gold_sql": "", "tags": ["last_month", "join", "single_step", "trap"]}
+{"query": "查询上个月评价对应的商品名称", "expected_tables": ["reviews,skus"], "gold_sql": "", "tags": ["last_month", "join", "single_step"]}
+{"query": "查询上个月加购事件对应的商品品类", "expected_tables": ["add_to_cart,skus,categories"], "gold_sql": "", "tags": ["last_month", "join", "single_step"]}
+{"query": "查询上个月客服工单对应的订单金额", "expected_tables": ["customer_service_tickets,orders"], "gold_sql": "", "tags": ["last_month", "join", "single_step"]}
+{"query": "查询上个月每个评价对应的用户所在城市", "expected_tables": ["reviews,users"], "gold_sql": "", "tags": ["last_month", "join", "single_step"]}
+{"query": "查询上个月订单明细中的商品价格和品类", "expected_tables": ["order_items,skus,categories"], "gold_sql": "", "tags": ["last_month", "join", "single_step"]}
+{"query": "查询上个月退货商品的价格和品类", "expected_tables": ["returns,skus,categories"], "gold_sql": "", "tags": ["last_month", "join", "single_step"]}
+{"query": "按品类统计上个月订单数量", "expected_tables": ["orders,order_items,skus,categories"], "gold_sql": "", "tags": ["group_by", "last_month", "join", "single_step"]}
+{"query": "按州统计上个月用户数量", "expected_tables": ["users"], "gold_sql": "", "tags": ["group_by", "last_month", "single_step"]}
+{"query": "按支付方式统计上个月订单数量", "expected_tables": ["payments,orders"], "gold_sql": "", "tags": ["group_by", "last_month", "join", "single_step"]}
+{"query": "按月份统计上个月销售额", "expected_tables": ["orders"], "gold_sql": "", "tags": ["group_by", "timezone", "single_step", "trap", "last_month", "time_filter"]}
+{"query": "按评分统计上个月评价数量分布", "expected_tables": ["reviews"], "gold_sql": "", "tags": ["group_by", "last_month", "single_step"]}
+{"query": "按品类统计上个月平均商品价格", "expected_tables": ["skus,categories"], "gold_sql": "", "tags": ["group_by", "last_month", "join", "single_step"]}
+{"query": "按城市统计上个月订单数量", "expected_tables": ["users,orders"], "gold_sql": "", "tags": ["group_by", "last_month", "join", "single_step"]}
+{"query": "按退货原因统计上个月退货数量", "expected_tables": ["returns,return_reasons"], "gold_sql": "", "tags": ["group_by", "last_month", "join", "single_step"]}
+{"query": "按工单类型统计上个月工单数量", "expected_tables": ["customer_service_tickets"], "gold_sql": "", "tags": ["group_by", "last_month", "single_step"]}
+{"query": "按年份和月份统计上个月订单数量", "expected_tables": ["orders"], "gold_sql": "", "tags": ["group_by", "last_month", "time_filter", "single_step"]}
+{"query": "销售额最高的10个订单", "expected_tables": ["orders"], "gold_sql": "", "tags": ["top_k", "last_month", "single_step"]}
+{"query": "评价分数最高的5个商品", "expected_tables": ["reviews,skus"], "gold_sql": "", "tags": ["top_k", "last_month", "join", "single_step"]}
+{"query": "订单数量最多的5个用户", "expected_tables": ["orders,users"], "gold_sql": "", "tags": ["group_by", "join", "single_step", "top_k", "last_month"]}
+{"query": "退货率最高的3个品类", "expected_tables": ["returns,orders,order_items,skus,categories"], "gold_sql": "", "tags": ["group_by", "join", "single_step", "top_k", "last_month", "rate"]}
+{"query": "浏览量最高的20个商品", "expected_tables": ["page_views,skus"], "gold_sql": "", "tags": ["group_by", "join", "single_step", "top_k", "last_month"]}
+{"query": "销售额最低的5个品类", "expected_tables": ["orders,order_items,skus,categories"], "gold_sql": "", "tags": ["group_by", "join", "single_step", "top_k", "last_month"]}
+{"query": "最近创建的10个订单", "expected_tables": ["orders"], "gold_sql": "", "tags": ["top_k", "last_month", "single_step"]}
+{"query": "加购次数最多的10个商品", "expected_tables": ["add_to_cart,skus"], "gold_sql": "", "tags": ["group_by", "join", "single_step", "top_k", "last_month"]}
+{"query": "支付金额最高的5笔支付", "expected_tables": ["payments"], "gold_sql": "", "tags": ["top_k", "last_month", "single_step"]}
+{"query": "评价数量最多的10个商品", "expected_tables": ["reviews,skus"], "gold_sql": "", "tags": ["group_by", "join", "single_step", "top_k", "last_month"]}
+{"query": "统计上季度订单总数", "expected_tables": ["orders"], "gold_sql": "", "tags": ["aggregation", "single_step", "last_quarter"]}
+{"query": "统计上季度用户总数", "expected_tables": ["users"], "gold_sql": "", "tags": ["aggregation", "single_step", "last_quarter"]}
+{"query": "统计上季度商品总数", "expected_tables": ["skus"], "gold_sql": "", "tags": ["aggregation", "single_step", "last_quarter"]}
+{"query": "计算订单平均金额", "expected_tables": ["orders"], "gold_sql": "", "tags": ["aggregation", "single_step", "last_quarter"]}
+{"query": "计算商品平均价格", "expected_tables": ["skus"], "gold_sql": "", "tags": ["aggregation", "single_step", "last_quarter"]}
+{"query": "统计上季度评价总数", "expected_tables": ["reviews"], "gold_sql": "", "tags": ["aggregation", "single_step", "last_quarter"]}
+{"query": "统计上季度退货总数", "expected_tables": ["returns"], "gold_sql": "", "tags": ["aggregation", "single_step", "last_quarter"]}
+{"query": "计算平均评价分数", "expected_tables": ["reviews"], "gold_sql": "", "tags": ["aggregation", "single_step", "last_quarter"]}
+{"query": "统计上季度支付记录总数", "expected_tables": ["payments"], "gold_sql": "", "tags": ["aggregation", "single_step", "last_quarter"]}
+{"query": "统计上季度加购事件总数", "expected_tables": ["add_to_cart"], "gold_sql": "", "tags": ["aggregation", "single_step", "last_quarter"]}
+{"query": "计算订单金额总和", "expected_tables": ["orders"], "gold_sql": "", "tags": ["aggregation", "single_step", "last_quarter"]}
+{"query": "统计上季度页面浏览量", "expected_tables": ["page_views"], "gold_sql": "", "tags": ["aggregation", "single_step", "last_quarter"]}
+{"query": "计算订单平均商品数量", "expected_tables": ["order_items"], "gold_sql": "", "tags": ["aggregation", "single_step", "last_quarter"]}
+{"query": "统计上季度客服工单总数", "expected_tables": ["customer_service_tickets"], "gold_sql": "", "tags": ["aggregation", "single_step", "last_quarter"]}
+{"query": "计算运费平均值", "expected_tables": ["order_items"], "gold_sql": "", "tags": ["aggregation", "single_step", "last_quarter"]}
+{"query": "查询上季度2017年的订单", "expected_tables": ["orders"], "gold_sql": "", "tags": ["last_quarter", "time_filter", "single_step", "filtering"]}
+{"query": "查询上季度圣保罗州的用户", "expected_tables": ["users"], "gold_sql": "", "tags": ["last_quarter", "single_step", "filtering"]}
+{"query": "查询上季度评分高于4分的评价", "expected_tables": ["reviews"], "gold_sql": "", "tags": ["last_quarter", "single_step", "filtering"]}
+{"query": "查询上季度信用卡支付的订单", "expected_tables": ["orders,payments"], "gold_sql": "", "tags": ["last_quarter", "join", "single_step", "filtering"]}
+{"query": "查询上季度已取消的订单", "expected_tables": ["orders,dim_order_status"], "gold_sql": "", "tags": ["single_step", "filtering", "enum_code", "trap", "last_quarter"]}
+{"query": "查询上季度重量超过1kg的商品", "expected_tables": ["skus"], "gold_sql": "", "tags": ["last_quarter", "single_step", "filtering"]}
+{"query": "查询上季度2018年第一季度的订单", "expected_tables": ["orders"], "gold_sql": "", "tags": ["timezone", "single_step", "filtering", "trap", "time_filter", "last_quarter"]}
+{"query": "查询上季度投诉类客服工单", "expected_tables": ["customer_service_tickets"], "gold_sql": "", "tags": ["last_quarter", "single_step", "filtering"]}
+{"query": "查询上季度退款类支付记录", "expected_tables": ["payments"], "gold_sql": "", "tags": ["last_quarter", "single_step", "filtering"]}
+{"query": "查询上季度已退货的订单", "expected_tables": ["orders,returns"], "gold_sql": "", "tags": ["last_quarter", "join", "single_step", "filtering"]}
+{"query": "查询上季度每个订单的用户所在城市", "expected_tables": ["orders,users"], "gold_sql": "", "tags": ["join", "single_step", "last_quarter"]}
+{"query": "查询上季度每个商品的所属品类名称", "expected_tables": ["skus,categories"], "gold_sql": "", "tags": ["join", "single_step", "last_quarter"]}
+{"query": "查询上季度退货订单的退货原因", "expected_tables": ["returns,return_reasons"], "gold_sql": "", "tags": ["join", "single_step", "last_quarter"]}
+{"query": "查询上季度每个支付记录的订单状态", "expected_tables": ["payments,orders,dim_order_status"], "gold_sql": "", "tags": ["last_quarter", "join", "single_step", "trap"]}
+{"query": "查询上季度评价对应的商品名称", "expected_tables": ["reviews,skus"], "gold_sql": "", "tags": ["join", "single_step", "last_quarter"]}
+{"query": "查询上季度加购事件对应的商品品类", "expected_tables": ["add_to_cart,skus,categories"], "gold_sql": "", "tags": ["join", "single_step", "last_quarter"]}
+{"query": "查询上季度客服工单对应的订单金额", "expected_tables": ["customer_service_tickets,orders"], "gold_sql": "", "tags": ["join", "single_step", "last_quarter"]}
+{"query": "查询上季度每个评价对应的用户所在城市", "expected_tables": ["reviews,users"], "gold_sql": "", "tags": ["join", "single_step", "last_quarter"]}
+{"query": "查询上季度订单明细中的商品价格和品类", "expected_tables": ["order_items,skus,categories"], "gold_sql": "", "tags": ["join", "single_step", "last_quarter"]}
+{"query": "查询上季度退货商品的价格和品类", "expected_tables": ["returns,skus,categories"], "gold_sql": "", "tags": ["join", "single_step", "last_quarter"]}
+{"query": "按品类统计上季度订单数量", "expected_tables": ["orders,order_items,skus,categories"], "gold_sql": "", "tags": ["group_by", "join", "single_step", "last_quarter"]}
+{"query": "按州统计上季度用户数量", "expected_tables": ["users"], "gold_sql": "", "tags": ["group_by", "single_step", "last_quarter"]}
+{"query": "按支付方式统计上季度订单数量", "expected_tables": ["payments,orders"], "gold_sql": "", "tags": ["group_by", "join", "single_step", "last_quarter"]}
+{"query": "按月份统计上季度销售额", "expected_tables": ["orders"], "gold_sql": "", "tags": ["group_by", "timezone", "single_step", "trap", "time_filter", "last_quarter"]}
+{"query": "按评分统计上季度评价数量分布", "expected_tables": ["reviews"], "gold_sql": "", "tags": ["group_by", "single_step", "last_quarter"]}
+{"query": "按品类统计上季度平均商品价格", "expected_tables": ["skus,categories"], "gold_sql": "", "tags": ["group_by", "join", "single_step", "last_quarter"]}
+{"query": "按城市统计上季度订单数量", "expected_tables": ["users,orders"], "gold_sql": "", "tags": ["group_by", "join", "single_step", "last_quarter"]}
+{"query": "按退货原因统计上季度退货数量", "expected_tables": ["returns,return_reasons"], "gold_sql": "", "tags": ["group_by", "join", "single_step", "last_quarter"]}
+{"query": "按工单类型统计上季度工单数量", "expected_tables": ["customer_service_tickets"], "gold_sql": "", "tags": ["group_by", "single_step", "last_quarter"]}
+{"query": "按年份和月份统计上季度订单数量", "expected_tables": ["orders"], "gold_sql": "", "tags": ["group_by", "time_filter", "single_step", "last_quarter"]}
+{"query": "销售额最高的10个订单", "expected_tables": ["orders"], "gold_sql": "", "tags": ["top_k", "single_step", "last_quarter"]}
+{"query": "评价分数最高的5个商品", "expected_tables": ["reviews,skus"], "gold_sql": "", "tags": ["top_k", "join", "single_step", "last_quarter"]}
+{"query": "订单数量最多的5个用户", "expected_tables": ["orders,users"], "gold_sql": "", "tags": ["group_by", "join", "single_step", "top_k", "last_quarter"]}
+{"query": "退货率最高的3个品类", "expected_tables": ["returns,orders,order_items,skus,categories"], "gold_sql": "", "tags": ["group_by", "join", "single_step", "top_k", "rate", "last_quarter"]}
+{"query": "浏览量最高的20个商品", "expected_tables": ["page_views,skus"], "gold_sql": "", "tags": ["group_by", "join", "single_step", "top_k", "last_quarter"]}
+{"query": "销售额最低的5个品类", "expected_tables": ["orders,order_items,skus,categories"], "gold_sql": "", "tags": ["group_by", "join", "single_step", "top_k", "last_quarter"]}
+{"query": "最近创建的10个订单", "expected_tables": ["orders"], "gold_sql": "", "tags": ["top_k", "single_step", "last_quarter"]}
+{"query": "加购次数最多的10个商品", "expected_tables": ["add_to_cart,skus"], "gold_sql": "", "tags": ["group_by", "join", "single_step", "top_k", "last_quarter"]}
+{"query": "支付金额最高的5笔支付", "expected_tables": ["payments"], "gold_sql": "", "tags": ["top_k", "single_step", "last_quarter"]}
+{"query": "评价数量最多的10个商品", "expected_tables": ["reviews,skus"], "gold_sql": "", "tags": ["group_by", "join", "single_step", "top_k", "last_quarter"]}
+{"query": "统计去年订单总数", "expected_tables": ["orders"], "gold_sql": "", "tags": ["aggregation", "last_year", "single_step"]}
+{"query": "统计去年用户总数", "expected_tables": ["users"], "gold_sql": "", "tags": ["aggregation", "last_year", "single_step"]}
+{"query": "统计去年商品总数", "expected_tables": ["skus"], "gold_sql": "", "tags": ["aggregation", "last_year", "single_step"]}
+{"query": "计算订单平均金额", "expected_tables": ["orders"], "gold_sql": "", "tags": ["aggregation", "last_year", "single_step"]}
+{"query": "计算商品平均价格", "expected_tables": ["skus"], "gold_sql": "", "tags": ["aggregation", "last_year", "single_step"]}
+{"query": "统计去年评价总数", "expected_tables": ["reviews"], "gold_sql": "", "tags": ["aggregation", "last_year", "single_step"]}
+{"query": "统计去年退货总数", "expected_tables": ["returns"], "gold_sql": "", "tags": ["aggregation", "last_year", "single_step"]}
+{"query": "计算平均评价分数", "expected_tables": ["reviews"], "gold_sql": "", "tags": ["aggregation", "last_year", "single_step"]}
+{"query": "统计去年支付记录总数", "expected_tables": ["payments"], "gold_sql": "", "tags": ["aggregation", "last_year", "single_step"]}
+{"query": "统计去年加购事件总数", "expected_tables": ["add_to_cart"], "gold_sql": "", "tags": ["aggregation", "last_year", "single_step"]}
+{"query": "计算订单金额总和", "expected_tables": ["orders"], "gold_sql": "", "tags": ["aggregation", "last_year", "single_step"]}
+{"query": "统计去年页面浏览量", "expected_tables": ["page_views"], "gold_sql": "", "tags": ["aggregation", "last_year", "single_step"]}
+{"query": "计算订单平均商品数量", "expected_tables": ["order_items"], "gold_sql": "", "tags": ["aggregation", "last_year", "single_step"]}
+{"query": "统计去年客服工单总数", "expected_tables": ["customer_service_tickets"], "gold_sql": "", "tags": ["aggregation", "last_year", "single_step"]}
+{"query": "计算运费平均值", "expected_tables": ["order_items"], "gold_sql": "", "tags": ["aggregation", "last_year", "single_step"]}
+{"query": "查询去年2017年的订单", "expected_tables": ["orders"], "gold_sql": "", "tags": ["last_year", "time_filter", "single_step", "filtering"]}
+{"query": "查询去年圣保罗州的用户", "expected_tables": ["users"], "gold_sql": "", "tags": ["last_year", "single_step", "filtering"]}
+{"query": "查询去年评分高于4分的评价", "expected_tables": ["reviews"], "gold_sql": "", "tags": ["last_year", "single_step", "filtering"]}
+{"query": "查询去年信用卡支付的订单", "expected_tables": ["orders,payments"], "gold_sql": "", "tags": ["last_year", "join", "single_step", "filtering"]}
+{"query": "查询去年已取消的订单", "expected_tables": ["orders,dim_order_status"], "gold_sql": "", "tags": ["single_step", "filtering", "enum_code", "trap", "last_year"]}
+{"query": "查询去年重量超过1kg的商品", "expected_tables": ["skus"], "gold_sql": "", "tags": ["last_year", "single_step", "filtering"]}
+{"query": "查询去年2018年第一季度的订单", "expected_tables": ["orders"], "gold_sql": "", "tags": ["timezone", "single_step", "filtering", "trap", "last_year", "time_filter"]}
+{"query": "查询去年投诉类客服工单", "expected_tables": ["customer_service_tickets"], "gold_sql": "", "tags": ["last_year", "single_step", "filtering"]}
+{"query": "查询去年退款类支付记录", "expected_tables": ["payments"], "gold_sql": "", "tags": ["last_year", "single_step", "filtering"]}
+{"query": "查询去年已退货的订单", "expected_tables": ["orders,returns"], "gold_sql": "", "tags": ["last_year", "join", "single_step", "filtering"]}
+{"query": "查询去年每个订单的用户所在城市", "expected_tables": ["orders,users"], "gold_sql": "", "tags": ["last_year", "join", "single_step"]}
+{"query": "查询去年每个商品的所属品类名称", "expected_tables": ["skus,categories"], "gold_sql": "", "tags": ["last_year", "join", "single_step"]}
+{"query": "查询去年退货订单的退货原因", "expected_tables": ["returns,return_reasons"], "gold_sql": "", "tags": ["last_year", "join", "single_step"]}
+{"query": "查询去年每个支付记录的订单状态", "expected_tables": ["payments,orders,dim_order_status"], "gold_sql": "", "tags": ["last_year", "join", "single_step", "trap"]}
+{"query": "查询去年评价对应的商品名称", "expected_tables": ["reviews,skus"], "gold_sql": "", "tags": ["last_year", "join", "single_step"]}
+{"query": "查询去年加购事件对应的商品品类", "expected_tables": ["add_to_cart,skus,categories"], "gold_sql": "", "tags": ["last_year", "join", "single_step"]}
+{"query": "查询去年客服工单对应的订单金额", "expected_tables": ["customer_service_tickets,orders"], "gold_sql": "", "tags": ["last_year", "join", "single_step"]}
+{"query": "查询去年每个评价对应的用户所在城市", "expected_tables": ["reviews,users"], "gold_sql": "", "tags": ["last_year", "join", "single_step"]}
+{"query": "查询去年订单明细中的商品价格和品类", "expected_tables": ["order_items,skus,categories"], "gold_sql": "", "tags": ["last_year", "join", "single_step"]}
+{"query": "查询去年退货商品的价格和品类", "expected_tables": ["returns,skus,categories"], "gold_sql": "", "tags": ["last_year", "join", "single_step"]}

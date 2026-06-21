@@ -1,0 +1,102 @@
+# =============================================================================
+# 智能数据分析 Agent — 全局配置
+# 环境变量覆盖: DEEPSEEK_API_KEY, SANDBOX_DB_PASSWORD, etc.
+# =============================================================================
+
+# --- LLM 模型配置 ---
+llm:
+  provider: "deepseek"
+  model: "deepseek-chat"              # DeepSeek-V3
+  api_base: "https://api.deepseek.com"
+  api_key_env: "DEEPSEEK_API_KEY"
+  temperature_sql: 0.1                # SQL 生成需要低温度
+  temperature_plan: 0.3               # 规划可以稍高
+  temperature_narrative: 0.5          # 叙事需要一定多样性
+  temperature_critic: 0.1             # 审查需要确定性
+  max_tokens: 4096
+  timeout_s: 30
+  retry:
+    max_attempts: 3
+    base_delay_s: 2
+    backoff_multiplier: 2
+
+# --- Embedding 模型 ---
+embedding:
+  model: "BAAI/bge-large-zh-v1.5"
+  dimension: 1024
+  normalize: true
+
+# --- Schema RAG 检索 ---
+schema_rag:
+  chunk:
+    top_k: 15
+  fusion:
+    rrf_k: 60
+    vector_weight: 0.6
+    bm25_weight: 0.4
+
+# --- Few-Shot 示例库 ---
+few_shot:
+  max_exemplars_per_query: 3
+  exemplar_file: "data/exemplars.jsonl"
+
+# --- SQL 执行沙箱 ---
+sandbox:
+  db:
+    host: "localhost"
+    port: 5432
+    dbname: "ecommerce_analytics"
+    user: "agent_readonly"
+    password_env: "SANDBOX_DB_PASSWORD"
+  limits:
+    statement_timeout_s: 30
+    max_rows: 100000
+    work_mem_mb: 64
+
+# --- 自纠错 ---
+correction:
+  max_attempts: 3
+  enable_critic: true
+  critic:
+    max_null_ratio: 0.30               # 空值率超过这个阈值视为异常
+
+# --- 安全约束 ---
+security:
+  sensitive_fields:
+    - "phone"
+    - "email"
+    - "address"
+    - "cpf"
+    - "cnpj"
+    - "password"
+    - "credit_card"
+  forbidden_keywords_sql:
+    - "DROP"
+    - "ALTER"
+    - "CREATE"
+    - "INSERT"
+    - "UPDATE"
+    - "DELETE"
+    - "TRUNCATE"
+    - "CALL"
+    - "DO"
+    - "EXECUTE"
+    - "GRANT"
+    - "REVOKE"
+  pg_system_schemas:
+    - "pg_catalog"
+    - "information_schema"
+
+# --- 可视化 ---
+viz:
+  font_family: "Noto Sans CJK SC"
+  default_format: "png"               # png | html
+  dpi: 150
+
+# --- 评估 ---
+eval:
+  spider_mini_path: "data/eval/spider_mini.jsonl"
+  business_scenarios_path: "data/eval/business_scenarios.jsonl"
+  judge_model: "claude-sonnet-4-20250514"    # 跨家族 judge, 避免 self-preference
+  judge_api_key_env: "ANTHROPIC_API_KEY"
+  eval_output_dir: "data/eval/reports"

@@ -1,0 +1,80 @@
+{"query": "上月销售额最高的品类是哪个", "expected_tables": ["orders", "order_items", "skus", "categories"], "gold_sql": "", "tags": ["single_step", "top_k", "time_filter"]}
+{"query": "本季度退货率最高的三个品类", "expected_tables": ["orders", "returns", "order_items", "skus", "categories"], "gold_sql": "", "tags": ["single_step", "top_k", "time_filter", "rate", "trap", "timezone"]}
+{"query": "哪种支付方式使用最多", "expected_tables": ["payments"], "gold_sql": "", "tags": ["single_step", "group_by"]}
+{"query": "商品平均评分最低的五个品类", "expected_tables": ["reviews", "skus", "categories"], "gold_sql": "", "tags": ["single_step", "top_k", "join", "group_by"]}
+{"query": "哪个州的客户下单最多", "expected_tables": ["users", "orders"], "gold_sql": "", "tags": ["single_step", "group_by", "join"]}
+{"query": "过去三个月销售额趋势如何", "expected_tables": ["orders"], "gold_sql": "", "tags": ["single_step", "time_filter", "trap", "timezone"]}
+{"query": "已交付订单的平均金额是多少", "expected_tables": ["orders", "dim_order_status"], "gold_sql": "", "tags": ["single_step", "trap", "enum_code"]}
+{"query": "客户投诉最多的原因是什么", "expected_tables": ["customer_service_tickets"], "gold_sql": "", "tags": ["single_step", "group_by"]}
+{"query": "销量最高的商品是什么", "expected_tables": ["order_items", "skus"], "gold_sql": "", "tags": ["single_step", "top_k", "join", "group_by"]}
+{"query": "找出退货率最高的三个品类，然后分析每个品类的主要退货原因分布", "expected_tables": ["returns", "orders", "order_items", "skus", "categories", "return_reasons"], "gold_sql": "", "tags": ["multi_step", "rate", "group_by", "top_k"]}
+{"query": "先找出销售额最高的五个用户，再看他们的购买品类偏好", "expected_tables": ["orders", "users", "order_items", "skus", "categories"], "gold_sql": "", "tags": ["multi_step", "top_k", "join"]}
+{"query": "统计各季度的订单量变化趋势，并找出增长最快的季度", "expected_tables": ["orders"], "gold_sql": "", "tags": ["multi_step", "time_filter", "window_function", "trap", "timezone"]}
+{"query": "计算各品类的客单价，然后找出客单价最高的品类下的热销商品", "expected_tables": ["orders", "order_items", "skus", "categories"], "gold_sql": "", "tags": ["multi_step", "group_by", "top_k"]}
+{"query": "分析各支付方式的订单占比变化趋势", "expected_tables": ["payments", "orders"], "gold_sql": "", "tags": ["multi_step", "group_by", "time_filter"]}
+{"query": "找出加购但未转化最多的十个商品，然后分析这些商品的评价分布", "expected_tables": ["add_to_cart", "skus", "reviews"], "gold_sql": "", "tags": ["multi_step", "join", "group_by"]}
+{"query": "对比上季度和本季度各品类的销售额变化", "expected_tables": ["orders", "order_items", "skus", "categories"], "gold_sql": "", "tags": ["multi_step", "time_filter", "window_function", "trap", "timezone"]}
+{"query": "分析高退货率品类的共性特征", "expected_tables": ["returns", "orders", "order_items", "skus", "categories"], "gold_sql": "", "tags": ["multi_step", "group_by", "rate"]}
+{"query": "找出复购率最高的用户群体特征", "expected_tables": ["orders", "users"], "gold_sql": "", "tags": ["multi_step", "group_by", "window_function"]}
+{"query": "上季度的销售额是多少（注意时区）", "expected_tables": ["orders"], "gold_sql": "", "tags": ["single_step", "trap", "timezone"]}
+{"query": "已完成的订单数量有多少", "expected_tables": ["orders", "dim_order_status"], "gold_sql": "", "tags": ["single_step", "trap", "enum_code"]}
+{"query": "今年实际收到的款项总额", "expected_tables": ["payments", "orders"], "gold_sql": "", "tags": ["single_step", "trap", "amount_ambiguity", "join"]}
+{"query": "各品类的实际收入（扣除退款后）", "expected_tables": ["orders", "order_items", "skus", "categories", "returns"], "gold_sql": "", "tags": ["single_step", "trap", "amount_ambiguity", "join", "group_by"]}
+{"query": "上月新增的客户数量", "expected_tables": ["users"], "gold_sql": "", "tags": ["single_step", "trap", "soft_delete"]}
+{"query": "整体订单的退货率", "expected_tables": ["orders", "returns"], "gold_sql": "", "tags": ["single_step", "trap", "soft_delete", "rate"]}
+{"query": "信用卡支付的订单平均金额", "expected_tables": ["payments", "orders"], "gold_sql": "", "tags": ["single_step", "join", "trap", "amount_ambiguity"]}
+{"query": "第二季度日均订单量", "expected_tables": ["orders"], "gold_sql": "", "tags": ["single_step", "time_filter", "trap", "timezone"]}
+{"query": "今年销售额最高的月份", "expected_tables": ["orders"], "gold_sql": "", "tags": ["single_step", "time_filter", "group_by", "trap", "timezone"]}
+{"query": "上月销售额最高的品类是哪个（变体1）", "expected_tables": ["orders", "order_items", "skus", "categories"], "gold_sql": "", "tags": ["single_step", "top_k", "time_filter"]}
+{"query": "本季度退货率最高的三个品类（变体1）", "expected_tables": ["orders", "returns", "order_items", "skus", "categories"], "gold_sql": "", "tags": ["single_step", "top_k", "time_filter", "rate", "trap", "timezone"]}
+{"query": "哪种支付方式使用最多（变体1）", "expected_tables": ["payments"], "gold_sql": "", "tags": ["single_step", "group_by"]}
+{"query": "商品平均评分最低的五个品类（变体1）", "expected_tables": ["reviews", "skus", "categories"], "gold_sql": "", "tags": ["single_step", "top_k", "join", "group_by"]}
+{"query": "哪个州的客户下单最多（变体1）", "expected_tables": ["users", "orders"], "gold_sql": "", "tags": ["single_step", "group_by", "join"]}
+{"query": "过去三个月销售额趋势如何（变体1）", "expected_tables": ["orders"], "gold_sql": "", "tags": ["single_step", "time_filter", "trap", "timezone"]}
+{"query": "已交付订单的平均金额是多少（变体1）", "expected_tables": ["orders", "dim_order_status"], "gold_sql": "", "tags": ["single_step", "trap", "enum_code"]}
+{"query": "客户投诉最多的原因是什么（变体1）", "expected_tables": ["customer_service_tickets"], "gold_sql": "", "tags": ["single_step", "group_by"]}
+{"query": "销量最高的商品是什么（变体1）", "expected_tables": ["order_items", "skus"], "gold_sql": "", "tags": ["single_step", "top_k", "join", "group_by"]}
+{"query": "找出退货率最高的三个品类，然后分析每个品类的主要退货原因分布（变体1）", "expected_tables": ["returns", "orders", "order_items", "skus", "categories", "return_reasons"], "gold_sql": "", "tags": ["multi_step", "rate", "group_by", "top_k"]}
+{"query": "先找出销售额最高的五个用户，再看他们的购买品类偏好（变体1）", "expected_tables": ["orders", "users", "order_items", "skus", "categories"], "gold_sql": "", "tags": ["multi_step", "top_k", "join"]}
+{"query": "统计各季度的订单量变化趋势，并找出增长最快的季度（变体1）", "expected_tables": ["orders"], "gold_sql": "", "tags": ["multi_step", "time_filter", "window_function", "trap", "timezone"]}
+{"query": "计算各品类的客单价，然后找出客单价最高的品类下的热销商品（变体1）", "expected_tables": ["orders", "order_items", "skus", "categories"], "gold_sql": "", "tags": ["multi_step", "group_by", "top_k"]}
+{"query": "分析各支付方式的订单占比变化趋势（变体1）", "expected_tables": ["payments", "orders"], "gold_sql": "", "tags": ["multi_step", "group_by", "time_filter"]}
+{"query": "找出加购但未转化最多的十个商品，然后分析这些商品的评价分布（变体1）", "expected_tables": ["add_to_cart", "skus", "reviews"], "gold_sql": "", "tags": ["multi_step", "join", "group_by"]}
+{"query": "对比上季度和本季度各品类的销售额变化（变体1）", "expected_tables": ["orders", "order_items", "skus", "categories"], "gold_sql": "", "tags": ["multi_step", "time_filter", "window_function", "trap", "timezone"]}
+{"query": "分析高退货率品类的共性特征（变体1）", "expected_tables": ["returns", "orders", "order_items", "skus", "categories"], "gold_sql": "", "tags": ["multi_step", "group_by", "rate"]}
+{"query": "找出复购率最高的用户群体特征（变体1）", "expected_tables": ["orders", "users"], "gold_sql": "", "tags": ["multi_step", "group_by", "window_function"]}
+{"query": "上季度的销售额是多少（注意时区）（变体1）", "expected_tables": ["orders"], "gold_sql": "", "tags": ["single_step", "trap", "timezone"]}
+{"query": "已完成的订单数量有多少（变体1）", "expected_tables": ["orders", "dim_order_status"], "gold_sql": "", "tags": ["single_step", "trap", "enum_code"]}
+{"query": "今年实际收到的款项总额（变体1）", "expected_tables": ["payments", "orders"], "gold_sql": "", "tags": ["single_step", "trap", "amount_ambiguity", "join"]}
+{"query": "各品类的实际收入（扣除退款后）（变体1）", "expected_tables": ["orders", "order_items", "skus", "categories", "returns"], "gold_sql": "", "tags": ["single_step", "trap", "amount_ambiguity", "join", "group_by"]}
+{"query": "上月新增的客户数量（变体1）", "expected_tables": ["users"], "gold_sql": "", "tags": ["single_step", "trap", "soft_delete"]}
+{"query": "整体订单的退货率（变体1）", "expected_tables": ["orders", "returns"], "gold_sql": "", "tags": ["single_step", "trap", "soft_delete", "rate"]}
+{"query": "信用卡支付的订单平均金额（变体1）", "expected_tables": ["payments", "orders"], "gold_sql": "", "tags": ["single_step", "join", "trap", "amount_ambiguity"]}
+{"query": "第二季度日均订单量（变体1）", "expected_tables": ["orders"], "gold_sql": "", "tags": ["single_step", "time_filter", "trap", "timezone"]}
+{"query": "今年销售额最高的月份（变体1）", "expected_tables": ["orders"], "gold_sql": "", "tags": ["single_step", "time_filter", "group_by", "trap", "timezone"]}
+{"query": "上月销售额最高的品类是哪个（变体2）", "expected_tables": ["orders", "order_items", "skus", "categories"], "gold_sql": "", "tags": ["single_step", "top_k", "time_filter"]}
+{"query": "本季度退货率最高的三个品类（变体2）", "expected_tables": ["orders", "returns", "order_items", "skus", "categories"], "gold_sql": "", "tags": ["single_step", "top_k", "time_filter", "rate", "trap", "timezone"]}
+{"query": "哪种支付方式使用最多（变体2）", "expected_tables": ["payments"], "gold_sql": "", "tags": ["single_step", "group_by"]}
+{"query": "商品平均评分最低的五个品类（变体2）", "expected_tables": ["reviews", "skus", "categories"], "gold_sql": "", "tags": ["single_step", "top_k", "join", "group_by"]}
+{"query": "哪个州的客户下单最多（变体2）", "expected_tables": ["users", "orders"], "gold_sql": "", "tags": ["single_step", "group_by", "join"]}
+{"query": "过去三个月销售额趋势如何（变体2）", "expected_tables": ["orders"], "gold_sql": "", "tags": ["single_step", "time_filter", "trap", "timezone"]}
+{"query": "已交付订单的平均金额是多少（变体2）", "expected_tables": ["orders", "dim_order_status"], "gold_sql": "", "tags": ["single_step", "trap", "enum_code"]}
+{"query": "客户投诉最多的原因是什么（变体2）", "expected_tables": ["customer_service_tickets"], "gold_sql": "", "tags": ["single_step", "group_by"]}
+{"query": "销量最高的商品是什么（变体2）", "expected_tables": ["order_items", "skus"], "gold_sql": "", "tags": ["single_step", "top_k", "join", "group_by"]}
+{"query": "找出退货率最高的三个品类，然后分析每个品类的主要退货原因分布（变体2）", "expected_tables": ["returns", "orders", "order_items", "skus", "categories", "return_reasons"], "gold_sql": "", "tags": ["multi_step", "rate", "group_by", "top_k"]}
+{"query": "先找出销售额最高的五个用户，再看他们的购买品类偏好（变体2）", "expected_tables": ["orders", "users", "order_items", "skus", "categories"], "gold_sql": "", "tags": ["multi_step", "top_k", "join"]}
+{"query": "统计各季度的订单量变化趋势，并找出增长最快的季度（变体2）", "expected_tables": ["orders"], "gold_sql": "", "tags": ["multi_step", "time_filter", "window_function", "trap", "timezone"]}
+{"query": "计算各品类的客单价，然后找出客单价最高的品类下的热销商品（变体2）", "expected_tables": ["orders", "order_items", "skus", "categories"], "gold_sql": "", "tags": ["multi_step", "group_by", "top_k"]}
+{"query": "分析各支付方式的订单占比变化趋势（变体2）", "expected_tables": ["payments", "orders"], "gold_sql": "", "tags": ["multi_step", "group_by", "time_filter"]}
+{"query": "找出加购但未转化最多的十个商品，然后分析这些商品的评价分布（变体2）", "expected_tables": ["add_to_cart", "skus", "reviews"], "gold_sql": "", "tags": ["multi_step", "join", "group_by"]}
+{"query": "对比上季度和本季度各品类的销售额变化（变体2）", "expected_tables": ["orders", "order_items", "skus", "categories"], "gold_sql": "", "tags": ["multi_step", "time_filter", "window_function", "trap", "timezone"]}
+{"query": "分析高退货率品类的共性特征（变体2）", "expected_tables": ["returns", "orders", "order_items", "skus", "categories"], "gold_sql": "", "tags": ["multi_step", "group_by", "rate"]}
+{"query": "找出复购率最高的用户群体特征（变体2）", "expected_tables": ["orders", "users"], "gold_sql": "", "tags": ["multi_step", "group_by", "window_function"]}
+{"query": "上季度的销售额是多少（注意时区）（变体2）", "expected_tables": ["orders"], "gold_sql": "", "tags": ["single_step", "trap", "timezone"]}
+{"query": "已完成的订单数量有多少（变体2）", "expected_tables": ["orders", "dim_order_status"], "gold_sql": "", "tags": ["single_step", "trap", "enum_code"]}
+{"query": "今年实际收到的款项总额（变体2）", "expected_tables": ["payments", "orders"], "gold_sql": "", "tags": ["single_step", "trap", "amount_ambiguity", "join"]}
+{"query": "各品类的实际收入（扣除退款后）（变体2）", "expected_tables": ["orders", "order_items", "skus", "categories", "returns"], "gold_sql": "", "tags": ["single_step", "trap", "amount_ambiguity", "join", "group_by"]}
+{"query": "上月新增的客户数量（变体2）", "expected_tables": ["users"], "gold_sql": "", "tags": ["single_step", "trap", "soft_delete"]}
+{"query": "整体订单的退货率（变体2）", "expected_tables": ["orders", "returns"], "gold_sql": "", "tags": ["single_step", "trap", "soft_delete", "rate"]}
+{"query": "信用卡支付的订单平均金额（变体2）", "expected_tables": ["payments", "orders"], "gold_sql": "", "tags": ["single_step", "join", "trap", "amount_ambiguity"]}
+{"query": "第二季度日均订单量（变体2）", "expected_tables": ["orders"], "gold_sql": "", "tags": ["single_step", "time_filter", "trap", "timezone"]}

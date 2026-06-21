@@ -1,0 +1,228 @@
+{
+  "database": "ecommerce_analytics",
+  "description": "巴西电商分析数据库，基于 Olist 公开数据集 + Faker 合成增强 + 生产噪声注入。12 张表，约 10 万订单。",
+  "timezone_note": "所有 TIMESTAMP 字段均为 UTC 时区存储。业务方说的'季度'指 America/Sao_Paulo 时区 (UTC-3)。查询时需 AT TIME ZONE 'America/Sao_Paulo' 转换。",
+  "soft_delete_note": "部分表有 is_deleted 字段：0=正常, 1=已删除。所有查询必须加 WHERE is_deleted = 0，否则会捞到脏数据。",
+
+  "tables": [
+    {
+      "name": "categories",
+      "description": "商品品类层级表",
+      "business_purpose": "品类分析、退货率按品类聚合、销售品类对比",
+      "row_count_approx": "~75",
+      "columns": [
+        {"name": "category_id", "type": "SERIAL", "description": "品类自增主键"},
+        {"name": "category_name", "type": "VARCHAR(200)", "description": "品类名称（葡萄牙语原文）", "example_value": "moveis_decoracao"},
+        {"name": "category_name_en", "type": "VARCHAR(200)", "description": "品类英文名称", "example_value": "furniture_decor"},
+        {"name": "parent_category_id", "type": "INT", "description": "父品类ID，自引用FK", "notes": "NULL 表示顶级品类"},
+        {"name": "is_deleted", "type": "SMALLINT", "description": "软删除标记", "notes": "0=正常, 1=已删除。所有查询必须加 is_deleted = 0"}
+      ]
+    },
+    {
+      "name": "skus",
+      "description": "商品/SKU 主数据表",
+      "business_purpose": "商品维度分析、价格段分析、品类关联",
+      "row_count_approx": "~33,000",
+      "columns": [
+        {"name": "sku_id", "type": "VARCHAR(64)", "description": "商品唯一标识", "example_value": "00143f0f86e4e87b03a04bf907e1e412"},
+        {"name": "category_id", "type": "INT", "description": "所属品类ID，FK → categories.category_id"},
+        {"name": "product_name", "type": "VARCHAR(500)", "description": "商品名称（原始）"},
+        {"name": "product_name_cn", "type": "VARCHAR(500)", "description": "商品中文名称（Faker 生成）", "example_value": "北欧风格简约书桌"},
+        {"name": "weight_g", "type": "NUMERIC(10,2)", "description": "商品重量（克）"},
+        {"name": "length_cm", "type": "NUMERIC(10,2)", "description": "长度（厘米）"},
+        {"name": "height_cm", "type": "NUMERIC(10,2)", "description": "高度（厘米）"},
+        {"name": "width_cm", "type": "NUMERIC(10,2)", "description": "宽度（厘米）"},
+        {"name": "price", "type": "NUMERIC(10,2)", "description": "商品单价", "example_value": "129.90"},
+        {"name": "is_deleted", "type": "SMALLINT", "description": "软删除标记", "notes": "必须加 is_deleted = 0"}
+      ]
+    },
+    {
+      "name": "users",
+      "description": "用户/客户主数据表",
+      "business_purpose": "用户维度分析、地域分析、复购率计算",
+      "row_count_approx": "~99,000",
+      "columns": [
+        {"name": "user_id", "type": "VARCHAR(64)", "description": "用户唯一标识", "example_value": "06b8999e2fba1a1fbc88172c00ba8bc7"},
+        {"name": "user_unique_id", "type": "VARCHAR(64)", "description": "用户全局唯一标识", "example_value": "861eff4711a542e4b93843c6dd7febb0"},
+        {"name": "zip_code_prefix", "type": "VARCHAR(10)", "description": "邮编前缀", "example_value": "14409"},
+        {"name": "city", "type": "VARCHAR(200)", "description": "城市", "example_value": "sao paulo"},
+        {"name": "state", "type": "VARCHAR(10)", "description": "州缩写", "example_value": "SP"},
+        {"name": "phone", "type": "VARCHAR(30)", "description": "电话号码", "is_sensitive": true, "notes": "SENSITIVE — LLM 不可见，不可查询"},
+        {"name": "email", "type": "VARCHAR(200)", "description": "邮箱地址", "is_sensitive": true, "notes": "SENSITIVE — LLM 不可见，不可查询"},
+        {"name": "address", "type": "VARCHAR(500)", "description": "详细地址", "is_sensitive": true, "notes": "SENSITIVE — LLM 不可见，不可查询"},
+        {"name": "is_deleted", "type": "SMALLINT", "description": "软删除标记", "notes": "必须加 is_deleted = 0"}
+      ]
+    },
+    {
+      "name": "dim_order_status",
+      "description": "订单状态维度表（枚举码 → 中文标签）",
+      "business_purpose": "解码 orders.order_status 的整数码",
+      "row_count_approx": "4",
+      "columns": [
+        {"name": "status_code", "type": "INT", "description": "状态编码：1=已交付, 2=已发货, 3=已取消, 4=处理中"},
+        {"name": "status_name", "type": "VARCHAR(50)", "description": "英文状态名", "example_value": "delivered"},
+        {"name": "status_name_cn", "type": "VARCHAR(50)", "description": "中文状态名", "example_value": "已交付"}
+      ],
+      "notes": "orders.order_status 是整数码。需要 JOIN 此表才能获取可读标签。LLM 如果直接写 WHERE order_status = 'delivered' 会报类型错误。"
+    },
+    {
+      "name": "orders",
+      "description": "订单主表",
+      "business_purpose": "销售额分析、订单趋势、客单价、退货率分母",
+      "row_count_approx": "~99,000",
+      "columns": [
+        {"name": "order_id", "type": "VARCHAR(64)", "description": "订单唯一标识", "example_value": "e481f51cbdc54678b7ec3e6b6c07a2d4"},
+        {"name": "user_id", "type": "VARCHAR(64)", "description": "下单用户ID，FK → users.user_id"},
+        {"name": "order_status", "type": "INT", "description": "订单状态编码", "notes": "⚠️ 这是整数编码，不是字符串！必须 JOIN dim_order_status 或使用 WHERE order_status = 1（不是 'delivered'）。1=已交付,2=已发货,3=已取消,4=处理中"},
+        {"name": "created_at", "type": "TIMESTAMP", "description": "订单创建时间", "notes": "⚠️ UTC 时区。业务'季度'指 America/Sao_Paulo 时区。查询时用 AT TIME ZONE 'America/Sao_Paulo' 转换。", "example_value": "2017-10-12 14:23:00"},
+        {"name": "delivered_at", "type": "TIMESTAMP", "description": "订单交付时间", "notes": "UTC 时区"},
+        {"name": "estimated_delivery_date", "type": "TIMESTAMP", "description": "预计交付日期", "notes": "UTC 时区"},
+        {"name": "amount", "type": "NUMERIC(12,2)", "description": "订单含税总额（销售额/GMV）", "notes": "⚠️ 区别于 payments.amount（实付额，扣除优惠券后）。分析'销售额'用本字段，分析'实收'用 payments.amount。约15%订单有差额。", "example_value": "249.90"},
+        {"name": "is_deleted", "type": "SMALLINT", "description": "软删除标记", "notes": "⚠️ 必须加 is_deleted = 0！约2%订单被标记删除，不过滤会污染聚合结果。"}
+      ]
+    },
+    {
+      "name": "order_items",
+      "description": "订单明细表",
+      "business_purpose": "商品销量分析、单品销售趋势、关联购买分析",
+      "row_count_approx": "~112,000",
+      "columns": [
+        {"name": "order_item_id", "type": "SERIAL", "description": "明细自增主键"},
+        {"name": "order_id", "type": "VARCHAR(64)", "description": "所属订单ID，FK → orders.order_id"},
+        {"name": "sku_id", "type": "VARCHAR(64)", "description": "商品ID，FK → skus.sku_id"},
+        {"name": "quantity", "type": "INT", "description": "购买数量"},
+        {"name": "unit_price", "type": "NUMERIC(10,2)", "description": "商品单价", "example_value": "89.90"},
+        {"name": "freight_value", "type": "NUMERIC(10,2)", "description": "运费", "example_value": "15.00"},
+        {"name": "is_deleted", "type": "SMALLINT", "description": "软删除标记", "notes": "必须加 is_deleted = 0"}
+      ]
+    },
+    {
+      "name": "payments",
+      "description": "支付记录表",
+      "business_purpose": "实收分析、支付方式分布、分期分析",
+      "row_count_approx": "~104,000",
+      "columns": [
+        {"name": "payment_id", "type": "SERIAL", "description": "支付自增主键"},
+        {"name": "order_id", "type": "VARCHAR(64)", "description": "所属订单ID，FK → orders.order_id"},
+        {"name": "payment_sequential", "type": "INT", "description": "分期序号（1-based）"},
+        {"name": "payment_type", "type": "VARCHAR(50)", "description": "支付方式", "example_value": "credit_card"},
+        {"name": "payment_installments", "type": "INT", "description": "分期数", "example_value": "3"},
+        {"name": "amount", "type": "NUMERIC(10,2)", "description": "实付金额（扣除优惠券后）", "notes": "⚠️ 这是实收金额，区别于 orders.amount（含税总额）。分析'实收'用本字段。", "example_value": "224.90"},
+        {"name": "is_deleted", "type": "SMALLINT", "description": "软删除标记", "notes": "必须加 is_deleted = 0"}
+      ]
+    },
+    {
+      "name": "return_reasons",
+      "description": "退货原因字典表",
+      "business_purpose": "退货原因维度分析",
+      "row_count_approx": "10",
+      "columns": [
+        {"name": "reason_id", "type": "SERIAL", "description": "原因自增主键"},
+        {"name": "reason_code", "type": "VARCHAR(50)", "description": "原因编码", "example_value": "DEFECT"},
+        {"name": "reason_name", "type": "VARCHAR(200)", "description": "英文原因描述", "example_value": "Defective product"},
+        {"name": "reason_name_cn", "type": "VARCHAR(200)", "description": "中文原因描述", "example_value": "产品缺陷"}
+      ]
+    },
+    {
+      "name": "returns",
+      "description": "退货记录表",
+      "business_purpose": "退货率分析、退货原因分布、退货金额统计",
+      "row_count_approx": "~12,000",
+      "columns": [
+        {"name": "return_id", "type": "VARCHAR(64)", "description": "退货唯一标识"},
+        {"name": "order_id", "type": "VARCHAR(64)", "description": "原订单ID，FK → orders.order_id"},
+        {"name": "sku_id", "type": "VARCHAR(64)", "description": "退货商品ID，FK → skus.sku_id"},
+        {"name": "reason_id", "type": "INT", "description": "退货原因ID，FK → return_reasons.reason_id"},
+        {"name": "return_quantity", "type": "INT", "description": "退货数量"},
+        {"name": "return_amount", "type": "NUMERIC(10,2)", "description": "退款金额"},
+        {"name": "created_at", "type": "TIMESTAMP", "description": "退货创建时间", "notes": "⚠️ UTC 时区"},
+        {"name": "is_deleted", "type": "SMALLINT", "description": "软删除标记", "notes": "必须加 is_deleted = 0"}
+      ]
+    },
+    {
+      "name": "page_views",
+      "description": "页面浏览行为表（Faker 合成）",
+      "business_purpose": "流量分析、转化漏斗、商品热度",
+      "row_count_approx": "~500,000",
+      "columns": [
+        {"name": "view_id", "type": "BIGSERIAL", "description": "浏览自增主键"},
+        {"name": "user_id", "type": "VARCHAR(64)", "description": "浏览用户ID，FK → users.user_id", "notes": "可为 NULL（未登录浏览）"},
+        {"name": "sku_id", "type": "VARCHAR(64)", "description": "浏览商品ID，FK → skus.sku_id", "notes": "可为 NULL（非商品页浏览）"},
+        {"name": "page_type", "type": "VARCHAR(100)", "description": "页面类型：homepage/product/search/category/cart"},
+        {"name": "referral_source", "type": "VARCHAR(200)", "description": "流量来源", "example_value": "google.com"},
+        {"name": "session_id", "type": "VARCHAR(128)", "description": "会话标识"},
+        {"name": "viewed_at", "type": "TIMESTAMP", "description": "浏览时间", "notes": "UTC 时区"}
+      ]
+    },
+    {
+      "name": "add_to_cart",
+      "description": "加购行为表（Faker 合成）",
+      "business_purpose": "加购率分析、转化漏斗、购物车放弃分析",
+      "row_count_approx": "~80,000",
+      "columns": [
+        {"name": "cart_id", "type": "BIGSERIAL", "description": "加购自增主键"},
+        {"name": "user_id", "type": "VARCHAR(64)", "description": "用户ID，FK → users.user_id"},
+        {"name": "sku_id", "type": "VARCHAR(64)", "description": "商品ID，FK → skus.sku_id"},
+        {"name": "quantity", "type": "INT", "description": "加购数量"},
+        {"name": "added_at", "type": "TIMESTAMP", "description": "加购时间", "notes": "UTC 时区"},
+        {"name": "converted_to_order", "type": "BOOLEAN", "description": "是否最终转化为订单", "notes": "约8%转化率"}
+      ]
+    },
+    {
+      "name": "reviews",
+      "description": "商品评价表",
+      "business_purpose": "评分分析、评价情感分析、好评率/差评率",
+      "row_count_approx": "~40,000",
+      "columns": [
+        {"name": "review_id", "type": "VARCHAR(64)", "description": "评价唯一标识"},
+        {"name": "order_id", "type": "VARCHAR(64)", "description": "关联订单ID，FK → orders.order_id"},
+        {"name": "sku_id", "type": "VARCHAR(64)", "description": "评价商品ID，FK → skus.sku_id"},
+        {"name": "user_id", "type": "VARCHAR(64)", "description": "评价用户ID，FK → users.user_id"},
+        {"name": "review_score", "type": "INT", "description": "评分 (1-5)", "notes": "CHECK 约束: BETWEEN 1 AND 5"},
+        {"name": "review_title", "type": "VARCHAR(500)", "description": "评价标题"},
+        {"name": "review_text", "type": "TEXT", "description": "评价正文（中文+葡萄牙语混合）"},
+        {"name": "created_at", "type": "TIMESTAMP", "description": "评价创建时间", "notes": "UTC 时区"}
+      ]
+    },
+    {
+      "name": "customer_service_tickets",
+      "description": "客服工单表（Faker 合成）",
+      "business_purpose": "客服分析、投诉率、退款申请统计",
+      "row_count_approx": "~5,000",
+      "columns": [
+        {"name": "ticket_id", "type": "VARCHAR(64)", "description": "工单唯一标识"},
+        {"name": "user_id", "type": "VARCHAR(64)", "description": "用户ID，FK → users.user_id"},
+        {"name": "order_id", "type": "VARCHAR(64)", "description": "关联订单ID，FK → orders.order_id", "notes": "可为 NULL（非订单类工单）"},
+        {"name": "ticket_type", "type": "VARCHAR(50)", "description": "工单类型：complaint/inquiry/return_request/refund"},
+        {"name": "ticket_status", "type": "VARCHAR(30)", "description": "工单状态：open/in_progress/resolved/closed"},
+        {"name": "subject", "type": "VARCHAR(500)", "description": "工单主题"},
+        {"name": "body", "type": "TEXT", "description": "工单正文"},
+        {"name": "created_at", "type": "TIMESTAMP", "description": "创建时间", "notes": "UTC 时区"},
+        {"name": "resolved_at", "type": "TIMESTAMP", "description": "解决时间", "notes": "UTC 时区，未解决则为 NULL"},
+        {"name": "is_deleted", "type": "SMALLINT", "description": "软删除标记", "notes": "必须加 is_deleted = 0"}
+      ]
+    }
+  ],
+
+  "table_relationships": [
+    {"from_table": "categories", "from_column": "parent_category_id", "to_table": "categories", "to_column": "category_id", "note": "自引用：父子品类"},
+    {"from_table": "skus", "from_column": "category_id", "to_table": "categories", "to_column": "category_id", "note": "商品所属品类"},
+    {"from_table": "orders", "from_column": "user_id", "to_table": "users", "to_column": "user_id", "note": "订单所属用户"},
+    {"from_table": "orders", "from_column": "order_status", "to_table": "dim_order_status", "to_column": "status_code", "note": "⚠️ 整数码 JOIN 维度表"},
+    {"from_table": "order_items", "from_column": "order_id", "to_table": "orders", "to_column": "order_id", "note": "明细所属订单"},
+    {"from_table": "order_items", "from_column": "sku_id", "to_table": "skus", "to_column": "sku_id", "note": "明细对应商品"},
+    {"from_table": "payments", "from_column": "order_id", "to_table": "orders", "to_column": "order_id", "note": "支付对应订单"},
+    {"from_table": "returns", "from_column": "order_id", "to_table": "orders", "to_column": "order_id", "note": "退货对应订单"},
+    {"from_table": "returns", "from_column": "sku_id", "to_table": "skus", "to_column": "sku_id", "note": "退货对应商品"},
+    {"from_table": "returns", "from_column": "reason_id", "to_table": "return_reasons", "to_column": "reason_id", "note": "退货原因"},
+    {"from_table": "reviews", "from_column": "order_id", "to_table": "orders", "to_column": "order_id", "note": "评价对应订单"},
+    {"from_table": "reviews", "from_column": "sku_id", "to_table": "skus", "to_column": "sku_id", "note": "评价对应商品"},
+    {"from_table": "reviews", "from_column": "user_id", "to_table": "users", "to_column": "user_id", "note": "评价对应用户"},
+    {"from_table": "page_views", "from_column": "user_id", "to_table": "users", "to_column": "user_id", "note": "可为 NULL"},
+    {"from_table": "page_views", "from_column": "sku_id", "to_table": "skus", "to_column": "sku_id", "note": "可为 NULL"},
+    {"from_table": "add_to_cart", "from_column": "user_id", "to_table": "users", "to_column": "user_id", "note": "加购用户"},
+    {"from_table": "add_to_cart", "from_column": "sku_id", "to_table": "skus", "to_column": "sku_id", "note": "加购商品"},
+    {"from_table": "customer_service_tickets", "from_column": "user_id", "to_table": "users", "to_column": "user_id", "note": "工单用户"},
+    {"from_table": "customer_service_tickets", "from_column": "order_id", "to_table": "orders", "to_column": "order_id", "note": "可为 NULL"}
+  ]
+}
