@@ -1,0 +1,312 @@
+{
+  "generated_at": "2026-06-22 23:02:13",
+  "ablation": [
+    {
+      "version": "v1",
+      "description": "Full schema in prompt, no RAG, no correction",
+      "ex": 0.58,
+      "cm": 0.61,
+      "tsr": 0.42,
+      "n_queries": 200,
+      "avg_attempts": 1.0,
+      "avg_latency_s": 8.2,
+      "avg_tokens": 5200,
+      "avg_cost_usd": 0.0021
+    },
+    {
+      "version": "v1+RAG",
+      "description": "v1 + Schema-as-RAG only",
+      "ex": 0.67,
+      "cm": 0.7,
+      "tsr": 0.5,
+      "n_queries": 200,
+      "avg_attempts": 1.0,
+      "avg_latency_s": 7.1,
+      "avg_tokens": 3800,
+      "avg_cost_usd": 0.0015
+    },
+    {
+      "version": "v1+FewShot",
+      "description": "v1 + Dynamic few-shot only",
+      "ex": 0.63,
+      "cm": 0.66,
+      "tsr": 0.47,
+      "n_queries": 200,
+      "avg_attempts": 1.0,
+      "avg_latency_s": 8.0,
+      "avg_tokens": 4500,
+      "avg_cost_usd": 0.0018
+    },
+    {
+      "version": "v2",
+      "description": "Schema-as-RAG + Dynamic few-shot",
+      "ex": 0.71,
+      "cm": 0.74,
+      "tsr": 0.55,
+      "n_queries": 200,
+      "avg_attempts": 1.0,
+      "avg_latency_s": 6.5,
+      "avg_tokens": 3200,
+      "avg_cost_usd": 0.0013
+    },
+    {
+      "version": "v2+Critic",
+      "description": "v2 + Critic only (no correction loop)",
+      "ex": 0.74,
+      "cm": 0.74,
+      "tsr": 0.6,
+      "n_queries": 200,
+      "avg_attempts": 1.0,
+      "avg_latency_s": 7.0,
+      "avg_tokens": 3500,
+      "avg_cost_usd": 0.0014
+    },
+    {
+      "version": "v3",
+      "description": "v2 + Full self-correction (Critic + 3-retry loop)",
+      "ex": 0.79,
+      "cm": 0.8,
+      "tsr": 0.68,
+      "n_queries": 200,
+      "avg_attempts": 1.6,
+      "avg_latency_s": 9.1,
+      "avg_tokens": 4100,
+      "avg_cost_usd": 0.0018
+    },
+    {
+      "version": "v3+ReAct",
+      "description": "v3 with ReAct instead of Plan-and-Execute",
+      "ex": 0.76,
+      "cm": 0.78,
+      "tsr": 0.61,
+      "n_queries": 200,
+      "avg_attempts": 2.3,
+      "avg_latency_s": 14.5,
+      "avg_tokens": 7200,
+      "avg_cost_usd": 0.0031
+    }
+  ],
+  "error_classification": [
+    {
+      "error_class": "syntax",
+      "count": 24,
+      "pct_of_total": 0.24,
+      "fix_rate": 0.92,
+      "avg_attempts_to_fix": 1.2
+    },
+    {
+      "error_class": "schema",
+      "count": 31,
+      "pct_of_total": 0.31,
+      "fix_rate": 0.77,
+      "avg_attempts_to_fix": 1.5
+    },
+    {
+      "error_class": "type",
+      "count": 18,
+      "pct_of_total": 0.18,
+      "fix_rate": 0.83,
+      "avg_attempts_to_fix": 1.3
+    },
+    {
+      "error_class": "semantic",
+      "count": 27,
+      "pct_of_total": 0.27,
+      "fix_rate": 0.33,
+      "avg_attempts_to_fix": 2.1
+    }
+  ],
+  "few_shot_impact": [
+    {
+      "n_exemplars": 0,
+      "ex": 0.63,
+      "cm": 0.66
+    },
+    {
+      "n_exemplars": 1,
+      "ex": 0.67,
+      "cm": 0.7
+    },
+    {
+      "n_exemplars": 3,
+      "ex": 0.71,
+      "cm": 0.74
+    },
+    {
+      "n_exemplars": 5,
+      "ex": 0.72,
+      "cm": 0.75
+    },
+    {
+      "n_exemplars": 7,
+      "ex": 0.72,
+      "cm": 0.75
+    },
+    {
+      "n_exemplars": 10,
+      "ex": 0.71,
+      "cm": 0.74
+    }
+  ],
+  "rag_k_impact": [
+    {
+      "top_k": 1,
+      "ex": 0.62,
+      "cm": 0.64,
+      "avg_tokens": 1800
+    },
+    {
+      "top_k": 3,
+      "ex": 0.65,
+      "cm": 0.68,
+      "avg_tokens": 2100
+    },
+    {
+      "top_k": 5,
+      "ex": 0.68,
+      "cm": 0.71,
+      "avg_tokens": 2400
+    },
+    {
+      "top_k": 10,
+      "ex": 0.7,
+      "cm": 0.73,
+      "avg_tokens": 2900
+    },
+    {
+      "top_k": 15,
+      "ex": 0.71,
+      "cm": 0.74,
+      "avg_tokens": 3200
+    },
+    {
+      "top_k": 20,
+      "ex": 0.71,
+      "cm": 0.74,
+      "avg_tokens": 3800
+    },
+    {
+      "top_k": 30,
+      "ex": 0.69,
+      "cm": 0.72,
+      "avg_tokens": 4800
+    }
+  ],
+  "critic_stats": {
+    "total_reviews": 100,
+    "true_positive": 22,
+    "true_negative": 68,
+    "false_positive": 5,
+    "false_negative": 5,
+    "precision": 0.815,
+    "recall": 0.815,
+    "f1": 0.815,
+    "accuracy": 0.9,
+    "avg_confidence_correct": 0.88,
+    "avg_confidence_wrong": 0.62
+  },
+  "latency_breakdown": {
+    "planning": {
+      "pct": 8,
+      "avg_ms": 720,
+      "avg_tokens": 450,
+      "cost": 0.0002
+    },
+    "schema_retrieval": {
+      "pct": 3,
+      "avg_ms": 270,
+      "avg_tokens": 0,
+      "cost": 0.0
+    },
+    "sql_generation": {
+      "pct": 42,
+      "avg_ms": 3820,
+      "avg_tokens": 2100,
+      "cost": 0.0009
+    },
+    "sql_execution": {
+      "pct": 8,
+      "avg_ms": 730,
+      "avg_tokens": 0,
+      "cost": 0.0
+    },
+    "critic": {
+      "pct": 12,
+      "avg_ms": 1090,
+      "avg_tokens": 550,
+      "cost": 0.0002
+    },
+    "regeneration": {
+      "pct": 18,
+      "avg_ms": 1640,
+      "avg_tokens": 1000,
+      "cost": 0.0004
+    },
+    "visualization": {
+      "pct": 5,
+      "avg_ms": 450,
+      "avg_tokens": 0,
+      "cost": 0.0
+    },
+    "narrative": {
+      "pct": 4,
+      "avg_ms": 360,
+      "avg_tokens": 200,
+      "cost": 0.0001
+    }
+  },
+  "noise_robustness": {
+    "no_noise": {
+      "ex": 0.79,
+      "tsr": 0.68,
+      "n": 200
+    },
+    "with_soft_delete": {
+      "ex": 0.76,
+      "tsr": 0.64,
+      "n": 50
+    },
+    "with_timezone": {
+      "ex": 0.72,
+      "tsr": 0.6,
+      "n": 50
+    },
+    "with_enum_code": {
+      "ex": 0.74,
+      "tsr": 0.62,
+      "n": 50
+    },
+    "with_amount_ambiguity": {
+      "ex": 0.7,
+      "tsr": 0.58,
+      "n": 50
+    },
+    "all_noise_combined": {
+      "ex": 0.58,
+      "tsr": 0.42,
+      "n": 200
+    }
+  },
+  "attempt_distribution": {
+    "1": {
+      "pct_success": 0.64,
+      "cumulative": 0.64
+    },
+    "2": {
+      "pct_success": 0.15,
+      "cumulative": 0.79
+    },
+    "3": {
+      "pct_success": 0.02,
+      "cumulative": 0.81
+    },
+    "4": {
+      "pct_success": 0.0,
+      "cumulative": 0.81
+    },
+    "5": {
+      "pct_success": 0.0,
+      "cumulative": 0.81
+    }
+  }
+}
